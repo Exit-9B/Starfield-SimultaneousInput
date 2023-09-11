@@ -1,0 +1,19 @@
+name: build
+on: [push]
+jobs:
+    run-build:
+        runs-on: windows-latest
+        steps:
+            - uses: actions/checkout@v2
+            - run: git submodule update --init --recursive
+            - run: vcpkg integrate install
+            - name: Build
+              run: |
+                cmake -B build -S . --preset=vs2022-windows -DCMAKE_TOOLCHAIN_FILE=C:/vcpkg/scripts/buildsystems/vcpkg.cmake;
+                cmake --build build --config Release
+            - name: 'Upload Artifact'
+              uses: actions/upload-artifact@v3
+              with:
+                name: Release
+                path: build/Release
+                retention-days: 30
