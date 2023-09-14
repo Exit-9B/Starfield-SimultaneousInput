@@ -105,7 +105,7 @@ bool IsGamepadCursor(RE::BSInputDeviceManager* a_inputDeviceManager)
 extern "C" DLLEXPORT bool SFSEAPI SFSEPlugin_Load(const SFSE::LoadInterface* a_sfse)
 {
 	InitializeLog();
-	SFSE::log::info("{} v{}", Plugin::NAME, Plugin::VERSION.string());
+	SFSE::log::info("{} v{}", Plugin::NAME, Plugin::VERSION.string('.'));
 
 	SFSE::Init(a_sfse);
 	SFSE::AllocTrampoline(28);

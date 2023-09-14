@@ -83,23 +83,23 @@ namespace REL
 				(_impl[2] & 0xFFF) << 4u | (_impl[3] & 0x00F) << 0u);
 		}
 
-		[[nodiscard]] std::string string() const
+		[[nodiscard]] std::string string(char delim = '-') const
 		{
 			std::string result;
 			for (auto&& ver : _impl) {
 				result += std::to_string(ver);
-				result += '-';
+				result += delim;
 			}
 			result.pop_back();
 			return result;
 		}
 
-		[[nodiscard]] std::wstring wstring() const
+		[[nodiscard]] std::wstring wstring(wchar_t delim = L'-') const
 		{
 			std::wstring result;
 			for (auto&& ver : _impl) {
 				result += std::to_wstring(ver);
-				result += L'-';
+				result += delim;
 			}
 			result.pop_back();
 			return result;
