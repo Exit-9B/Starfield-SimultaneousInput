@@ -26,14 +26,7 @@ file(
 	HEADER_FILES
 	LIST_DIRECTORIES false
 	CONFIGURE_DEPENDS
-	"${PROJECT_SOURCE_DIR}/src/*.h"
-)
-
-source_group(
-	TREE ${PROJECT_SOURCE_DIR}/src
-	PREFIX "Header Files"
-	FILES
-	${HEADER_FILES}
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/*.h"
 )
 
 target_sources(${PROJECT_NAME} PRIVATE ${HEADER_FILES})
@@ -43,13 +36,7 @@ file(
 	SOURCE_FILES
 	LIST_DIRECTORIES false
 	CONFIGURE_DEPENDS
-	"${PROJECT_SOURCE_DIR}/src/*.cpp"
-)
-
-source_group(
-	TREE ${PROJECT_SOURCE_DIR}/src
-	PREFIX "Source Files"
-	FILES ${SOURCE_FILES}
+	"${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
 )
 
 target_sources(${PROJECT_NAME} PRIVATE ${SOURCE_FILES})
