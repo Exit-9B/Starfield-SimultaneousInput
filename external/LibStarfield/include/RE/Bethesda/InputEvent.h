@@ -6,7 +6,7 @@
 
 namespace RE
 {
-	enum class INPUT_DEVICE : std::uint8_t
+	enum class INPUT_DEVICE
 	{
 		None     = static_cast<std::uint8_t>(-1),
 		Keyboard = 0,
@@ -17,7 +17,7 @@ namespace RE
 		TOTAL
 	};
 
-	enum class INPUT_EVENT_TYPE : std::uint32_t
+	enum class INPUT_EVENT_TYPE
 	{
 		Button        = 0,
 		MouseMove     = 1,
@@ -31,15 +31,14 @@ namespace RE
 	class InputEvent
 	{
 	public:
-		virtual ~InputEvent();
+		virtual ~InputEvent(); // 00
 
-		virtual bool                   HasIDCode() const;
-		virtual const BSFixedStringCS& QUserEvent() const;
+		// add
+		virtual bool                   HasIDCode() const;  // 01
+		virtual const BSFixedStringCS& QUserEvent() const; // 02
 
 		// members
 		INPUT_DEVICE     device;     // 08
-		std::uint8_t     pad09;      // 09
-		std::uint16_t    pad0A;      // 0A
 		std::int32_t     deviceId;   // 0C
 		INPUT_EVENT_TYPE eventType;  // 10
 		std::uint32_t    pad14;      // 14
