@@ -29,7 +29,7 @@ add_library("${PROJECT_NAME}::${PROJECT_NAME}" ALIAS "${PROJECT_NAME}")
 
 target_sources(
 	"${PROJECT_NAME}"
-	PUBLIC
+	PRIVATE
 	${HEADER_FILES}
 	${SOURCE_FILES}
 	.clang-format
