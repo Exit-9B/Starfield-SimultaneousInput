@@ -8,46 +8,46 @@ namespace RE
 	{
 		namespace BSInputDeviceManager
 		{
-			constexpr REL::Offset IsUsingGamepad{ 0x2C92960 };
+			constexpr REL::Offset IsUsingGamepad{ 0x2C92620 };
 		}
 
 		namespace BSPCGamepadDevice
 		{
-			constexpr REL::Offset Poll{ 0x2CB185C };
+			constexpr REL::Offset Poll{ 0x2CB151C };
 		}
 
 		namespace IMenu
 		{
-			constexpr REL::Offset ShowCursor{ 0x2E7A570 };
+			constexpr REL::Offset ShowCursor{ 0x2E7A220 };
 		}
 
 		namespace Main
 		{
-			constexpr REL::Offset Run_WindowsMessageLoop{ 0x23F7984 };
+			constexpr REL::Offset Run_WindowsMessageLoop{ 0x23F79F4 };
 		}
 
 		namespace PlayerControls
 		{
 			namespace LookHandler
 			{
-				constexpr REL::Offset Vtbl{ 0x4473F08 };
-				constexpr REL::Offset Func10{ 0x1F47600 };
+				constexpr REL::Offset Vtbl{ 0x4474EC0 };
+				constexpr REL::Offset Func10{ 0x1F475D0 };
 			}
 
 			namespace Manager
 			{
-				constexpr REL::Offset ProcessLookInput{ 0x1F4EDD8 };
+				constexpr REL::Offset ProcessLookInput{ 0x1F4EDA8 };
 			}
 		}
 
 		namespace ShipHudDataModel
 		{
-			constexpr REL::Offset PerformInputProcessing{ 0x20FDAC8 };
+			constexpr REL::Offset PerformInputProcessing{ 0x20FDA98 };
 		}
 
 		namespace UI
 		{
-			constexpr REL::Offset SetCursorStyle{ 0x2E70EB4 };
+			constexpr REL::Offset SetCursorStyle{ 0x2E70B64 };
 		}
 	}
 }

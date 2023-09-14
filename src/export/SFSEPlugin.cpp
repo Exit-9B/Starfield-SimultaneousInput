@@ -68,7 +68,7 @@ extern "C" DLLEXPORT constexpr auto SFSEPlugin_Version = []()
 	v.PluginName(Plugin::NAME);
 	v.AuthorName("Parapets");
 
-	v.CompatibleVersions({ REL::Version(1, 7, 23) });
+	v.CompatibleVersions({ REL::Version(1, 7, 29) });
 
 	return v;
 }();
