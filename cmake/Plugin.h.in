@@ -1,14 +1,17 @@
 #pragma once
 
-#include "REL/Version.h"
+#include "SFSE/Impl/PCH.h"
 
-#include <string_view>
+#include "REL/Version.h"
 
 namespace Plugin
 {
-    using namespace std::literals;
+	using namespace std::literals;
 
-    inline constexpr REL::Version VERSION{ @PROJECT_VERSION_MAJOR@u, @PROJECT_VERSION_MINOR@u, @PROJECT_VERSION_PATCH@u };
+	inline constexpr REL::Version VERSION
+	{
+		@PROJECT_VERSION_MAJOR@u, @PROJECT_VERSION_MINOR@u, @PROJECT_VERSION_PATCH@u
+	};
 
-    inline constexpr auto NAME = "@PROJECT_NAME@"sv;
+	inline constexpr auto NAME = "@PROJECT_NAME@"sv;
 }

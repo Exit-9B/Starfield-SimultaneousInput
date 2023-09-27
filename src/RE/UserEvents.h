@@ -1,7 +1,7 @@
 #pragma once
 
-#include "RE/Bethesda/BS/BSFixedString.h"
-#include "RE/Offset.h"
+#include "RE/B/BSFixedString.h"
+#include "RE/Offset.Ext.h"
 
 namespace RE
 {

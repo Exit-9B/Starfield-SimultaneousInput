@@ -4,14 +4,14 @@
 #include "REL/Module.h"
 #include "REL/Pattern.h"
 #include "REL/Relocation.h"
-#include "SFSE/Log.h"
-#include "SFSE/PluginAPI.h"
-#include "stl/stl.h"
+#include "SFSE/API.h"
+#include "SFSE/Interfaces.h"
+#include "SFSE/Logger.h"
+#include "SFSE/Trampoline.h"
 
-#include "RE/Bethesda/BS/BSFixedString.h"
-#include "RE/Bethesda/MouseMoveEvent.h"
-#include "RE/Bethesda/UserEvents.h"
-#include "RE/Offset.h"
+#include "RE/B/BSFixedString.h"
+#include "RE/MouseMoveEvent.h"
+#include "RE/UserEvents.h"
 
 #include <spdlog/spdlog.h>
 #ifdef NDEBUG
@@ -22,7 +22,10 @@
 
 #include <array>
 #include <memory>
+#include <tuple>
 #include <utility>
+
+using namespace std::string_view_literals;
 
 #define DLLEXPORT __declspec(dllexport)
 #define SFSEAPI __cdecl
@@ -34,9 +37,9 @@ namespace
 #ifndef NDEBUG
 		auto sink = std::make_shared<spdlog::sinks::msvc_sink_mt>();
 #else
-		auto path = SFSE::LogDirectory();
+		auto path = SFSE::log::log_directory();
 		if (!path) {
-			stl::report_and_fail("Failed to find standard logging directory"sv);
+			SFSE::stl::report_and_fail("Failed to find standard logging directory"sv);
 		}
 
 		*path /= fmt::format("{}.log"sv, Plugin::NAME);
@@ -68,7 +71,8 @@ extern "C" DLLEXPORT constexpr auto SFSEPlugin_Version = []()
 	v.PluginName(Plugin::NAME);
 	v.AuthorName("Parapets");
 
-	v.CompatibleVersions({ REL::Version(1, 7, 29) });
+	v.UsesAddressLibrary(true);
+	v.IsLayoutDependent(true);
 
 	return v;
 }();
@@ -105,7 +109,7 @@ bool IsGamepadCursor(RE::BSInputDeviceManager* a_inputDeviceManager)
 extern "C" DLLEXPORT bool SFSEAPI SFSEPlugin_Load(const SFSE::LoadInterface* a_sfse)
 {
 	InitializeLog();
-	SFSE::log::info("{} v{}", Plugin::NAME, Plugin::VERSION.string('.'));
+	SFSE::log::info("{} v{}"sv, Plugin::NAME, Plugin::VERSION.string("."sv));
 
 	SFSE::Init(a_sfse);
 	SFSE::AllocTrampoline(28);
@@ -136,26 +140,27 @@ extern "C" DLLEXPORT bool SFSEAPI SFSEPlugin_Load(const SFSE::LoadInterface* a_s
 	// Prevent left thumbstick from changing device
 	{
 		auto hook = REL::Relocation<std::uintptr_t>(
-			RE::Offset::BSPCGamepadDevice::Poll + 0x2A0);
+			RE::Offset::BSPCGamepadDevice::Poll,
+			0x2A0);
 		REL::safe_fill(hook.address(), REL::NOP, 0x4);
 	}
 
 	{
 		auto hookLocs = {
 			// Fix slow movement on 2 quadrants?
-			RE::Offset::PlayerControls::LookHandler::Func10 + 0xE,
+			std::make_pair(RE::Offset::PlayerControls::LookHandler::Func10, 0xE),
 			// Fix look sensitivity
-			RE::Offset::PlayerControls::Manager::ProcessLookInput + 0x68,
+			std::make_pair(RE::Offset::PlayerControls::Manager::ProcessLookInput, 0x68),
 			// Prevent cursor from escaping window
-			RE::Offset::Main::Run_WindowsMessageLoop + 0x2F,
+			std::make_pair(RE::Offset::Main::Run_WindowsMessageLoop, 0x2F),
 			// Fix mouse movement for ship reticle
-			RE::Offset::ShipHudDataModel::PerformInputProcessing + 0x7AF,
-			RE::Offset::ShipHudDataModel::PerformInputProcessing + 0x82A,
+			std::make_pair(RE::Offset::ShipHudDataModel::PerformInputProcessing, 0x7AF),
+			std::make_pair(RE::Offset::ShipHudDataModel::PerformInputProcessing, 0x82A),
 		};
 
 		auto& trampoline = SFSE::GetTrampoline();
-		for (auto offset : hookLocs) {
-			auto hook = REL::Relocation<std::uintptr_t>(offset);
+		for (auto [id, offset] : hookLocs) {
+			auto hook = REL::Relocation<std::uintptr_t>(id, offset);
 
 			REL::make_pattern<"E8">().match_or_fail(hook.address());
 
@@ -166,14 +171,14 @@ extern "C" DLLEXPORT bool SFSEAPI SFSEPlugin_Load(const SFSE::LoadInterface* a_s
 	{
 		auto hookLocs = {
 			// Show cursor for menus
-			RE::Offset::IMenu::ShowCursor + 0x14,
+			std::make_pair(RE::Offset::IMenu::ShowCursor, 0x14),
 			// Use pointer style cursor
-			RE::Offset::UI::SetCursorStyle + 0x98,
+			std::make_pair(RE::Offset::UI::SetCursorStyle, 0x98),
 		};
 
 		auto& trampoline = SFSE::GetTrampoline();
-		for (auto offset : hookLocs) {
-			auto hook = REL::Relocation<std::uintptr_t>(offset);
+		for (auto [id, offset] : hookLocs) {
+			auto hook = REL::Relocation<std::uintptr_t>(id, offset);
 
 			REL::make_pattern<"E8">().match_or_fail(hook.address());
 			trampoline.write_call<5>(hook.address(), IsGamepadCursor);

@@ -2,13 +2,13 @@ cmake_minimum_required(VERSION 3.24)
 
 project(
 	SimultaneousInput
-	VERSION 1.0.1
+	VERSION 1.0.2
 	LANGUAGES CXX
 )
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
-set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD 23)
 
 cmake_host_system_information(
 	RESULT Starfield_PATH
@@ -99,13 +99,13 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 	)
 endif()
 
-add_subdirectory(external/LibStarfield LibStarfield EXCLUDE_FROM_ALL)
+add_subdirectory(external/CommonLibSF CommonLibSF EXCLUDE_FROM_ALL)
 
 find_package(spdlog CONFIG REQUIRED)
 
 target_link_libraries(
 	${PROJECT_NAME}
-	LibStarfield::LibStarfield
+	CommonLibSF::CommonLibSF
 	spdlog::spdlog
 )
 

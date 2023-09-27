@@ -8,46 +8,51 @@ namespace RE
 	{
 		namespace BSInputDeviceManager
 		{
-			constexpr REL::Offset IsUsingGamepad{ 0x2C92620 };
+			constexpr REL::ID IsUsingGamepad{ 178879 };
 		}
 
 		namespace BSPCGamepadDevice
 		{
-			constexpr REL::Offset Poll{ 0x2CB151C };
+			constexpr REL::ID Poll{ 179249 };
 		}
 
 		namespace IMenu
 		{
-			constexpr REL::Offset ShowCursor{ 0x2E7A220 };
+			constexpr REL::ID ShowCursor{ 187256 };
 		}
 
 		namespace Main
 		{
-			constexpr REL::Offset Run_WindowsMessageLoop{ 0x23F79F4 };
+			constexpr REL::ID Run_WindowsMessageLoop{ 149028 };
 		}
 
 		namespace PlayerControls
 		{
 			namespace LookHandler
 			{
-				constexpr REL::Offset Vtbl{ 0x4474EC0 };
-				constexpr REL::Offset Func10{ 0x1F475D0 };
+				constexpr REL::ID Vtbl{ 407288 };
+				constexpr REL::ID Func10{ 129152 };
 			}
 
 			namespace Manager
 			{
-				constexpr REL::Offset ProcessLookInput{ 0x1F4EDA8 };
+				constexpr REL::ID ProcessLookInput{ 129407 };
 			}
 		}
 
 		namespace ShipHudDataModel
 		{
-			constexpr REL::Offset PerformInputProcessing{ 0x20FDA98 };
+			constexpr REL::ID PerformInputProcessing{ 137087 };
 		}
 
 		namespace UI
 		{
-			constexpr REL::Offset SetCursorStyle{ 0x2E70B64 };
+			constexpr REL::ID SetCursorStyle{ 187051 };
+		}
+
+		namespace UserEvents
+		{
+			constexpr REL::ID QLook{ 120233 };
 		}
 	}
 }

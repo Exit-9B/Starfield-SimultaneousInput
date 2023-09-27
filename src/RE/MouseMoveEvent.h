@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RE/Bethesda/IDEvent.h"
+#include "RE/IDEvent.h"
 
 namespace RE
 {
