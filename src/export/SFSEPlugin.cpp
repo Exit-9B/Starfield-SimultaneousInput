@@ -21,6 +21,7 @@
 #endif
 
 #include <array>
+#include <format>
 #include <memory>
 #include <tuple>
 #include <utility>
@@ -42,7 +43,7 @@ namespace
 			SFSE::stl::report_and_fail("Failed to find standard logging directory"sv);
 		}
 
-		*path /= fmt::format("{}.log"sv, Plugin::NAME);
+		*path /= std::format("{}.log"sv, Plugin::NAME);
 		auto sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(
 			path->string(),
 			true);
