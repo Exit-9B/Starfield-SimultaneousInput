@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.24)
 
 project(
 	SimultaneousInput
-	VERSION 1.0.2
+	VERSION 1.0.3
 	LANGUAGES CXX
 )
 
